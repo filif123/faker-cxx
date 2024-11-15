@@ -276,3 +276,13 @@ TEST_F(WordTest, returnsFirstElementWhenNoLengthMatch)
 
     ASSERT_TRUE(result == "three");
 }
+
+TEST_F(WordTest, returnsRandomElementWhenNoLengthMatch)
+{
+    std::vector<std::string> words = {"one", "three", "five"};
+    std::optional<unsigned int> length = 0;
+
+    auto result = sortedSizeRandomElement(length, words);
+
+    ASSERT_TRUE(result == "one" || result == "three" || result == "five");
+}
