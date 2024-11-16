@@ -124,9 +124,9 @@ std::string ISBN13()
     return isbn13 + std::to_string(checkDigit);
 }
 
-std::string ISBN10()
+std::string ISBN10(const std::function<std::string(u_int32_t , bool)>& generator)
 {
-    const auto isbn10 = string::numeric(9, true);
+    const auto isbn10 = generator(9, true); //string::numeric(9, true);
 
     int sum = 0, weight = 10;
 

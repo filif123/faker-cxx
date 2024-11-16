@@ -1,6 +1,4 @@
 comment: no # do not comment PR with the result
-codecov:
-  token: d3d286e2-c683-4186-ac0b-042d9c4d7f0c
 coverage:
   range: 50..90 # coverage lower than 50 is red, higher than 90 green, between color code
 

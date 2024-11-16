@@ -171,7 +171,7 @@ const struct PersonDefinition& getPersonDefinition(Locale locale)
 
 }
 
-bool checkTokenFormat(const std::string& bio);
+//bool checkTokenFormat(const std::string& bio);
 
 class PersonTest : public TestWithParam<Locale>
 {
@@ -490,11 +490,87 @@ TEST_F(PersonTest, shouldGenerateHobby)
                                     { return hobby == generatedHobby; }));
 }
 
-TEST_F(PersonTest, shouldGenerateBio)
+/*TEST_F(PersonTest, shouldGenerateBio)
 {
     const auto generatedBio = bio();
 
     ASSERT_TRUE(checkTokenFormat(generatedBio));
+}*/
+
+TEST_F(PersonTest, shouldGenerateBioFirstFormat)
+{
+    const std::regex firstRegex{R"(^(\w+\s?\w+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[0]); };
+
+    const auto generatedBio = bio(generator);
+
+    ASSERT_TRUE(std::regex_match(generatedBio, firstRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioSecondFormat)
+{
+    const std::regex secondRegex{R"(^(\w+\s?\w+), (\w+\s?\w+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[1]); };
+
+    const auto generatedBio = bio(generator);
+
+    ASSERT_TRUE(std::regex_match(generatedBio, secondRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioThirdFormat)
+{
+    const std::regex thirdRegex{R"(^(\w+\s?\w+), (\w+\s?\w+), (\w+\s?\w+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[2]); };
+
+    const auto generatedBio = bio(generator);
+
+    ASSERT_TRUE(std::regex_match(generatedBio, thirdRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioFourthFormat)
+{
+    const std::regex fourthRegex{R"(^(\w+\s?\w+), (\w+\s?\w+), (\w+\s?\w+), (\S+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[3]); };
+
+    const auto generatedBio = bio(generator);
+
+    ASSERT_TRUE(std::regex_match(generatedBio, fourthRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioFifthFormat) {
+    const std::regex fifthRegex{R"(^(\w+\-?\w+) (\w+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[4]); };
+    
+    const auto generatedBio = bio(generator);
+    
+    ASSERT_TRUE(std::regex_match(generatedBio, fifthRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioSixthFormat) {
+    const std::regex sixthRegex{R"(^(\w+\-?\w+) (\w+) (\S+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[5]); };
+    
+    const auto generatedBio = bio(generator);
+    
+    ASSERT_TRUE(std::regex_match(generatedBio, sixthRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioSeventhFormat) {
+    const std::regex seventhRegex{R"(^(\w+\-?\w+) (\w+), (\w+\s?\w+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[6]); };
+    
+    const auto generatedBio = bio(generator);
+    
+    ASSERT_TRUE(std::regex_match(generatedBio, seventhRegex));
+}
+
+TEST_F(PersonTest, shouldGenerateBioEighthFormat) {
+    const std::regex eighthRegex{R"(^(\w+\-?\w+) (\w+), (\w+\s?\w+) (\S+)$)"};
+    const auto generator = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(items[7]); };
+    
+    const auto generatedBio = bio(generator);
+    
+    ASSERT_TRUE(std::regex_match(generatedBio, eighthRegex));
 }
 
 TEST_F(PersonTest, shouldGenerateLanguage)
@@ -623,7 +699,7 @@ TEST_F(PersonPassportTest, shouldGenerateRomanianPassport)
     ASSERT_TRUE(std::isdigit(passportNumber[7]));
 }
 
-bool checkTokenFormat(const std::string& bio)
+/*bool checkTokenFormat(const std::string& bio)
 {
     const std::regex firstRegex{R"(^(\w+\s?\w+)$)"};
     const std::regex secondRegex{R"(^(\w+\s?\w+), (\w+\s?\w+)$)"};
@@ -719,4 +795,4 @@ bool checkTokenFormat(const std::string& bio)
     }
 
     return false;
-}
+}*/

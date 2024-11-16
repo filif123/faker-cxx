@@ -322,9 +322,9 @@ std::string_view suffix(Locale locale, std::optional<Sex> sex)
     return helper::randomElement(suffixes);
 }
 
-std::string bio()
+std::string bio(const std::function<std::string(const std::array<std::string_view, 8>&)>& generator)
 {
-    const auto randomBioFormat = static_cast<std::string>(helper::randomElement(bioFormats));
+    const auto randomBioFormat = generator(bioFormats);
 
     const std::unordered_map<std::string_view, std::function<std::string_view()>> dataGeneratorsMapping{
         {"bio_part", []() { return helper::randomElement(bioParts); }},

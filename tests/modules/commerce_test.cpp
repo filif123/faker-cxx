@@ -160,7 +160,7 @@ TEST_F(CommerceTest, shouldGenerateIsbn13)
     ASSERT_TRUE(sum % 10 == 0);
 }
 
-TEST_F(CommerceTest, shouldGenerateIsbn10)
+/*TEST_F(CommerceTest, shouldGenerateIsbn10)
 {
     const auto generatedIsbn10 = ISBN10();
 
@@ -185,6 +185,20 @@ TEST_F(CommerceTest, shouldGenerateIsbn10)
 
     ASSERT_EQ(generatedIsbn10.size(), 10);
     ASSERT_TRUE(sum % 11 == 0);
+}*/
+
+TEST_F(CommerceTest, shouldReturnValidISBN10WithNumericCheckDigit)
+{
+    auto generator = [](u_int32_t , bool) { return "020131452"; };
+    std::string isbn = ISBN10(generator);
+    ASSERT_EQ(isbn, "0201314525"); // Expected check digit is 7.
+}
+
+TEST_F(CommerceTest, shouldReturnValidISBN10WithCheckDigitX)
+{
+    auto generator = [](u_int32_t , bool){ return "123456789"; };
+    std::string isbn = ISBN10(generator);
+    ASSERT_EQ(isbn, "123456789X");
 }
 
 TEST_F(CommerceTest, shouldGeneratePaymentType)

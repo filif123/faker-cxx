@@ -3,9 +3,11 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <functional>
 
 #include "faker-cxx/export.h"
 #include "types/locale.h"
+#include "helper.h"
 
 namespace faker::person
 {
@@ -100,7 +102,8 @@ FAKER_CXX_EXPORT std::string_view suffix(Locale locale = Locale::en_US, std::opt
  * faker::person::bio() //"Developer"
  * @endcode
  */
-FAKER_CXX_EXPORT std::string bio();
+FAKER_CXX_EXPORT std::string bio(const std::function<std::string(const std::array<std::string_view, 8>&)>& generator
+    = [](const std::array<std::string_view, 8>& items) { return static_cast<std::string>(helper::randomElement(items)); });
 
 /**
  * @brief Returns a random sex of the locale passed.

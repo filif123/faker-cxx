@@ -2,8 +2,10 @@
 
 #include <string>
 #include <string_view>
+#include <functional>
 
 #include "faker-cxx/export.h"
+#include "faker-cxx/string.h"
 
 namespace faker::commerce
 {
@@ -116,7 +118,8 @@ FAKER_CXX_EXPORT std::string ISBN13();
  * faker::commerce::ISBN10() // "0200716018"
  * @endcode
  */
-FAKER_CXX_EXPORT std::string ISBN10();
+FAKER_CXX_EXPORT std::string ISBN10(const std::function<std::string(u_int32_t , bool)>& generator = 
+        [](u_int32_t length, bool includeZero) { return string::numeric(length, includeZero); });
 
 /**
  * @brief Returns a random payment type.
